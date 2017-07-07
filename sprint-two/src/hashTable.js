@@ -9,11 +9,9 @@ HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   //create bucket
   var bucket = this._storage.get(index);
-  //create tuple
-  var tuple;
   //check if bucket exists
   if(bucket) {
-    //if yes, iterate tuples to check if key matches
+    //if yes, iterate bucket to check if key matches
     var inserted = false;
     for(var i = 0; i < bucket.length; i++) {
       //if matches then update value
@@ -39,16 +37,35 @@ HashTable.prototype.insert = function(k, v) {
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   //create bucket
-  //create tuple
+  var bucket = this._storage.get(index);
   //check if bucket exists
-    //if yes, iterate tuples
-      //if key matches
+  if(bucket) {
+      //if yes, iterate tuples
+    for(var i = 0; i < bucket.length; i++) {
+      //if tuple key matches k
+      if(bucket[i][0] === k) {
         //return value
-  //return "Fuck off, idiot"
+        return bucket[i][1];
+      }
+    }
+  }
 };
 
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
+  //create bucket
+  var bucket = this._storage.get(index);
+  //check if bucket exists
+  if(bucket) {
+    //if yes then iterate over bucket
+    for(var i = 0; i < bucket.length; i++) {
+      //if key matches k
+      if(bucket[i][0] === k) {
+        //remove tuple
+        bucket.splice(i, 1);
+      }
+    }
+  }
 };
 
 
