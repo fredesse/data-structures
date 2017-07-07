@@ -1,22 +1,22 @@
 // Instantiate a new graph
 var Graph = function() {
-  this.strawberry = {};
+  this.nodeObj = {};
   this.edges = {};
 };
 
 // Add a node to the graph, passing in the node's value.
 Graph.prototype.addNode = function(node) {
-  this.strawberry[node] = node;
+  this.nodeObj[node] = node;
 };
 
 // Return a boolean value indicating if the value passed to contains is represented in the graph.
 Graph.prototype.contains = function(node) {
-  return node in this.strawberry;
+  return node in this.nodeObj;
 };
 
 // Removes a node from the graph.
 Graph.prototype.removeNode = function(node) {
-  delete this.strawberry[node];
+  delete this.nodeObj[node];
   delete this.edges[node];
 };
 
@@ -45,7 +45,7 @@ Graph.prototype.removeEdge = function(fromNode, toNode) {
 
 // Pass in a callback which will be executed on each node of the graph.
 Graph.prototype.forEachNode = function(cb) {
-  _.each(this.strawberry, cb);
+  _.each(this.nodeObj, cb);
 };
 
 /*
