@@ -9,7 +9,7 @@ var BinarySearchTree = function(value) {
   binaryTree.left = null;
 
   //create a insert function method
-  binaryTree.insert = function(value){
+  binaryTree.insert = function(value) {
     //if node value smaller than value
     if (value < this.value) {
       //check if there isn't left node
@@ -34,31 +34,31 @@ var BinarySearchTree = function(value) {
     }
   };
   //create a contains function method
-  binaryTree.contains = function(value){
+  binaryTree.contains = function(value) {
     //check if the current node has the value
-    if (value === this.value){
+    if (value === this.value) {
       //if yes, then return true;
       return true;
     }
     //if the right and left objects are null,
-    if (this.right === null && this.left === null){
+    if (this.right === null && this.left === null) {
       //return false;
       return false;
     }
     //if value is smaller than current node
-    if (value < this.value){
+    if (value < this.value) {
       //then run contains function on the left property
       return this.left.contains(value);
     }
     //if value is bigger than current node
-    if (value > this.value){
+    if (value > this.value) {
       //then run contains function on the right property
       return this.right.contains(value);
     }
     return false;
   };
   //create a depthFirstLog() function method
-  binaryTree.depthFirstLog = function(cb){
+  binaryTree.depthFirstLog = function(cb) {
     //run the callback function on the current node's value
     cb(this.value);
     //check if it has a left kid
@@ -71,7 +71,7 @@ var BinarySearchTree = function(value) {
       //run depthFirstLog on right kid
       this.right.depthFirstLog(cb);
     }
-  }
+  };
 
   return binaryTree;
 };
