@@ -8,7 +8,6 @@ var BinarySearchTree = function(value) {
   //create left pointer with the value null
   binaryTree.left = null;
 
-
   //create a insert function method
   binaryTree.insert = function(value){
     //if node value smaller than value
@@ -28,7 +27,7 @@ var BinarySearchTree = function(value) {
       if (this.right === null) {
         //if there's not then assign right value to new obj
         this.right = BinarySearchTree(value);
-      } else{
+      } else {
         //else run insert function on right node
         this.right.insert(value);
       }
