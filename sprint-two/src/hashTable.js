@@ -27,7 +27,6 @@ HashTable.prototype._resize = function(newLimit){
   });
 }
 
-
 HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   //create bucket
