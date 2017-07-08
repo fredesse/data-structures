@@ -8,13 +8,25 @@ var HashTable = function() {
 };
 
 HashTable.prototype._resize = function(newLimit){
-  //update limit with newLimit
-  //create new limited array with updated limit
-  //iterate through buckets of old _storage array
-    //iterate through tuples of each bucket
-      //insert tuples into new array
-  //update _storage with new array
+  //create a copy of _storage
+  var oldStorage = this._storage;
+  //create new _storage with new limit
+  this._storage = LimitedArray(newLimit);
+  //set limit to new limit
+  this._limit = newLimit;
+  //set the context
+  var thisThis = this;
+  //set counter to 0 so it wouldn't double the limit
+  this._counter = 0;
+  oldStorage.each(function(bucket) {
+    if(bucket !== undefined) {
+      for(var i = 0; i < bucket.length; i++) {
+        thisThis.insert(bucket[i][0], bucket[i][1]);
+      }
+    }
+  });
 }
+
 
 HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
@@ -35,8 +47,7 @@ HashTable.prototype.insert = function(k, v) {
       //if not then set value
       bucket.push([k, v]);
       //increment counter
-      //check if counter is over 75%
-        //if yes then double the size of storage array with the resize func
+      this._counter++;
     }
   }
   else{
@@ -46,9 +57,13 @@ HashTable.prototype.insert = function(k, v) {
     bucket.push([k, v]);
     this._storage.set(index, bucket);
     //increment counter
-      //check if counter is over 75%
-        //if yes then double the size of storage array with the resize func
+    this._counter++;
   }
+
+  if(this._counter > (.75 * this._limit)) {
+    this._resize(this._limit * 2);
+  }
+
 };
 
 HashTable.prototype.retrieve = function(k) {
@@ -81,13 +96,41 @@ HashTable.prototype.remove = function(k) {
         //remove tuple
         bucket.splice(i, 1);
         //decrement counter
+        this._counter--;
         //check if counter is under 25%
+        if(this._counter < (.25 * this._limit)){
           //if yes then halve the storage array with the resize func
+          this._resize(this._limit / 2);
+        }
       }
     }
   }
 };
+  // //create new limited array with updated limit
+  // var newStorage = LimitedArray(newLimit);
+  // //iterate through buckets of old _storage array
+  // for(var i = 0; i < this._limit; i++){
+  //   //look up index and set it to bucket
+  //   var bucket = this._storage.get(i);
+  //   // check if index has bucket
+  //   if (bucket) {
+  //     //iterate through tuples of each bucket
+  //     for(var j = 0; j < bucket.length; j++){
+  //       // get new index for key bucket[j][0] using newLimit
+  //       var newIndex = getIndexBelowMaxForKey(bucket[j][0], newLimit);
+  //       // get newStorage index
+  //       var newBucket = newStorage[newIndex];
+  //       // duplicate insert...
+  //       // if has newBucket then
+  //       if (newBucket !== undefined) {
 
+  //       }
+  //     }
+  //   }
+
+  // }
+  // //update _storage with new array
+  // this._storage = newStorage;
 
 
 /*
